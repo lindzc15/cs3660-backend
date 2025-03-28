@@ -11,3 +11,11 @@ class VerifyLoginRequest(BaseModel):
 class LoginResponse(BaseModel):
     success: bool
     jwt_token: str|None = None
+
+class RegisterResponse(BaseModel):
+    success: bool
+
+class RegisterRequest(BaseModel):
+    username: str
+    password: str
+    name: str

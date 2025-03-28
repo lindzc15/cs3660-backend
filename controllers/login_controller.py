@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 
-from schemas.login_schema import LoginRequest, LoginResponse, VerifyLoginRequest
+from schemas.login_schema import LoginRequest, LoginResponse, VerifyLoginRequest, RegisterResponse, RegisterRequest
 from services.login_service import LoginService
 
 
@@ -23,6 +23,16 @@ async def verify(verify_request: VerifyLoginRequest):
     except Exception as e:
         raise HTTPException(status_code=401, detail=str(e))
 
+
+@router.post("/register", response_model=RegisterResponse)
+async def register(register_request: RegisterRequest):
+    try:
+        _ = LoginService.hash_password(register_request.username, register_request.password, register_request.name)
+        return RegisterResponse(success=True)
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
     
 
     

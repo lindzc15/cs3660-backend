@@ -3,3 +3,10 @@ class User:
         self.username = username
         self.name = name        
         self.password_hash = password_hash
+
+    def to_dict(self):
+        return {
+            "username": self.username,
+            "name": self.name,
+            "password_hash": self.password_hash
+        }

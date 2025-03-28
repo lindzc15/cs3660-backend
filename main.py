@@ -13,13 +13,13 @@ app = FastAPI(title="CS3660 Backend Project", version="1.0.0")
 
 app.add_middleware(AuthMiddleware)
 # Not needed when CORS is handled through API Gateway
-# app.add_middleware(
-#    CORSMiddleware,
-#    allow_origins=["http://localhost:5173"],  # Allow requests from React frontend
-#    allow_credentials=True,
-#    allow_methods=["*"],  # Allow all HTTP methods (GET, POST, OPTIONS, etc.)
-#    allow_headers=["*"],  # Allow all headers
-# )
+app.add_middleware(
+   CORSMiddleware,
+   allow_origins=["http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:3000", "http://127.0.0.1:5173"],  # Allow requests from React frontend
+   allow_credentials=True,
+   allow_methods=["*"],  # Allow all HTTP methods (GET, POST, OPTIONS, etc.)
+   allow_headers=["*"],  # Allow all headers
+)
 
 
 

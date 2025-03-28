@@ -1,7 +1,9 @@
 import hashlib
+from fastapi import HTTPException
 import jwt
 import datetime
 from repositories.user_repository import UserRepository
+from models.user_model import User
 
 # Secret key for signing JWT (store securely in environment variables)
 # We want this secret and not in the code, we'll remove it later using .env
@@ -20,6 +22,20 @@ class LoginService:
             raise Exception("Token has expired")
         except jwt.InvalidTokenError:
             raise Exception("Invalid token")
+    
+    #hashes passwords during new account creation, before storing in database
+    @staticmethod
+    def hash_password(username: str, password: str, name: str):
+        if not username or not password or not name:
+            raise Exception("Missing required fields")
+        
+        hashed_password = hashlib.sha256(password.encode()).hexdigest()
+        user = User(username, name, hashed_password)
+
+        try:
+            UserRepository.register_user(user)
+        except Exception as e:
+            raise Exception(f"New user registration failed: {str(e)}")
         
     # Function to verify login from users.json
     @staticmethod

@@ -4,14 +4,15 @@ from fastapi.openapi.utils import get_openapi
 
 from fastapi.middleware.cors import CORSMiddleware
 
-from controllers import login_controller
+from controllers import login_controller, ravelry_controller
 from middleware.auth_middleware import AuthMiddleware
 from schemas.message_schema import MessageResponse
 
 
 app = FastAPI(title="CS3660 Backend Project", version="1.0.0")
 
-app.add_middleware(AuthMiddleware)
+#add back in if implementing protected routes
+# app.add_middleware(AuthMiddleware)
 # Not needed when CORS is handled through API Gateway
 app.add_middleware(
    CORSMiddleware,
@@ -24,7 +25,7 @@ app.add_middleware(
 
 
 app.include_router(login_controller.router)
-#################### ADD YARN API
+app.include_router(ravelry_controller.router)
 
 @app.get("/", response_model=MessageResponse)
 def read_root():

@@ -35,7 +35,7 @@ class LoginService:
         try:
             UserRepository.register_user(user)
         except Exception as e:
-            raise Exception(f"New user registration failed: {str(e)}")
+            raise Exception(f"{str(e)}")
         
     # Function to verify login from users.json
     @staticmethod

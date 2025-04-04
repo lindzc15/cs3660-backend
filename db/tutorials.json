@@ -1,0 +1,40 @@
+{
+    "tutorials": [
+        {
+            "name": "Slip Stitch",
+            "creator": "KnitGirl3000",
+            "description": "Learn this crochet basic",
+            "link": "https://www.youtube.com/embed/ZwZLCaYPhTk"
+        },
+        {
+            "name": "Single Crochet",
+            "creator": "CrochetGirl3000",
+            "description": "An up close video",
+            "link": "https://youtu.be/7FcRdxg0aeY?si=mJ_F8Zv02speNAnD"
+        },
+        {
+            "name": "Double Crochet",
+            "creator": "Ry645",
+            "description": "Learn a double crochet",
+            "link": "https://youtu.be/b7_QFV7VHpA?si=rut9CsF7ump6IkJR"
+        },
+        {
+            "name": "Treble Crochet",
+            "creator": "Gran87",
+            "description": "A slow video of a treble crochet",
+            "link": "https://youtu.be/QsOcZdC8CVw?si=f1Y0-7s3FZYxqvWh"
+        },
+        {
+            "name": "Knit Stitch",
+            "creator": "itsMe123",
+            "description": "A detailed video",
+            "link": "https://youtu.be/d5CR1ssUbMQ?si=tnnQyTiJOiKlHwcl"
+        },
+        {
+            "name": "Purl Stitch",
+            "creator": "MyGuy456",
+            "description": "A good video for beginners",
+            "link": "https://youtu.be/f66Rk8ZKS_4?si=7iCpf5sikm33vviw"
+        }
+    ]
+}

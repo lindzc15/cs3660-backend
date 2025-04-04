@@ -31,3 +31,19 @@ class YarnID(BaseModel):
 
 class YarnIDResponse(BaseModel):
     yarnIDs: List[YarnID]
+
+class PatternPhotoBasic(BaseModel):
+    medium_url: Optional[str] = None  
+
+class DesignerInfo(BaseModel):
+    name: str
+
+class PatternBasics(BaseModel):
+    id: str
+    free: bool
+    name: str
+    first_photo: Optional[PatternPhotoBasic] = None  
+    designer: Optional[DesignerInfo] = None  
+
+class PatternsResponse(BaseModel):
+    patterns: List[PatternBasics]

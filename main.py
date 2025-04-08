@@ -5,28 +5,35 @@ from fastapi.openapi.utils import get_openapi
 from fastapi.middleware.cors import CORSMiddleware
 
 from controllers import login_controller, ravelry_controller, tutorials_controller
+from config import settings
+
+from middleware.api_gateway_middleware import ApiGatewayAuthMiddleware
 from middleware.auth_middleware import AuthMiddleware
 from schemas.message_schema import MessageResponse
 
 
 app = FastAPI(title="CS3660 Backend Project", version="1.0.0")
 
+
 #add back in if implementing protected routes
 # app.add_middleware(AuthMiddleware)
 # Not needed when CORS is handled through API Gateway
-app.add_middleware(
-   CORSMiddleware,
-   allow_origins=["http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:3000", "http://127.0.0.1:5173"],  # Allow requests from React frontend
-   allow_credentials=True,
-   allow_methods=["*"],  # Allow all HTTP methods (GET, POST, OPTIONS, etc.)
-   allow_headers=["*"],  # Allow all headers
-)
+if settings.app_env == "local":
+    app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:3000", "http://127.0.0.1:5173"],  # Allow requests from React frontend
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods (GET, POST, OPTIONS, etc.)
+    allow_headers=["*"],  # Allow all headers
+    )
 
+app.add_middleware(ApiGatewayAuthMiddleware)
 
 
 app.include_router(login_controller.router)
 app.include_router(ravelry_controller.router)
 app.include_router(tutorials_controller.router)
+
 
 @app.get("/", response_model=MessageResponse)
 def read_root():

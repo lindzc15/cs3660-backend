@@ -26,7 +26,7 @@ class RavelryRepository:
         all_yarns = []
         async with httpx.AsyncClient(timeout=30) as client:
             for page in range(1,2):
-                response = await client.get(f"{all_url}?page_size=16&page={page}", headers=headers)
+                response = await client.get(f"{all_url}?page_size=48&page={page}", headers=headers)
                 if response.status_code == 200:
                     yarn_data = response.json()
                     

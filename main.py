@@ -4,6 +4,7 @@ from fastapi.openapi.utils import get_openapi
 
 from fastapi.middleware.cors import CORSMiddleware
 
+from containers import Container
 from controllers import login_controller, ravelry_controller, tutorials_controller
 from config import settings
 
@@ -13,6 +14,8 @@ from schemas.message_schema import MessageResponse
 
 
 app = FastAPI(title="CS3660 Backend Project", version="1.0.0")
+container = Container()
+app.container = container
 
 
 #add back in if implementing protected routes

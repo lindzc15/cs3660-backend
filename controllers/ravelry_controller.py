@@ -25,8 +25,3 @@ async def patterns(query: Search):
     return await RavelryService.search_yarns(query.query)
 
 
-@router.get("/test")
-async def test_yarns():
-    yarns = await RavelryService.search_yarns("wool")
-    return yarns
-

@@ -47,3 +47,7 @@ class PatternBasics(BaseModel):
 
 class PatternsResponse(BaseModel):
     patterns: List[PatternBasics]
+
+
+class Search(BaseModel):
+    query: str

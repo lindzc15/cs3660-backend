@@ -93,3 +93,47 @@ class RavelryRepository:
         return None  
     
 
+
+    @staticmethod
+    async def search_patterns(query) -> PatternsResponse | None:
+        base_url = "https://api.ravelry.com/patterns/search.json?query="
+        credentials = f"{RAVELRY_USERNAME}:{RAVELRY_PASSWORD}"
+        encoded_credentials = base64.b64encode(credentials.encode()).decode()
+        headers = {"Authorization": f"Basic {encoded_credentials}"}
+
+        async with httpx.AsyncClient(timeout=30) as client: 
+            response = await client.get(base_url + query, headers=headers)
+            if response.status_code == 200:
+                pattern_data = response.json()
+                patternStuff = pattern_data.get("patterns", [])
+                
+
+                pattern_basics_list = [
+                    PatternBasics(                    
+                        id=str(pattern["id"]),
+                        free=pattern["free"],
+                        name=pattern["name"],
+                        designer=DesignerInfo(**pattern["designer"]) if "designer" in pattern else None,
+                        first_photo=PatternPhotoBasic(medium_url=pattern["first_photo"]["medium_url"]) if "first_photo" in pattern else None
+                    )
+                    for pattern in patternStuff
+                ]
+
+                return PatternsResponse(patterns=pattern_basics_list)
+
+        return None  
+
+
+    @staticmethod
+    async def search_yarns(query) -> YarnIDResponse | None:
+        base_url = "https://api.ravelry.com/yarns/search.json?query="
+        credentials = f"{RAVELRY_USERNAME}:{RAVELRY_PASSWORD}"
+        encoded_credentials = base64.b64encode(credentials.encode()).decode()
+        headers = {"Authorization": f"Basic {encoded_credentials}"}
+        async with httpx.AsyncClient(timeout=30) as client:
+            response = await client.get(base_url + query, headers=headers)
+            if response.status_code == 200:
+                yarn_data = response.json()
+                yarn_ids = [YarnID(id=str(yarn["id"])) for yarn in yarn_data["yarns"]]
+                return YarnIDResponse(yarnIDs=yarn_ids)
+            return None

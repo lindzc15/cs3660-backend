@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from dependency_injector.wiring import Provide, inject
 from containers import Container
-from schemas.login_schema import LoginRequest, LoginResponse, VerifyLoginRequest, RegisterResponse, RegisterRequest
+from schemas.login_schema import LoginRequest, LoginResponse, VerifyLoginRequest, RegisterResponse, RegisterRequest, UpdateRequest
 from services.login_service import LoginService
 
 
@@ -12,6 +12,7 @@ router = APIRouter(prefix="/api/login", tags=["Authentication"])
 async def login(login: LoginRequest, 
                 login_service: LoginService = Depends(Provide[Container.login_service])):
     try:
+        print("logging in")
         token = login_service.get_login_token(login.username, login.password)
         return LoginResponse(success=True, jwt_token=token)
     except Exception as e:
@@ -41,5 +42,18 @@ async def register(register_request: RegisterRequest,
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
+
+@router.post("/update", response_model=LoginResponse)
+@inject
+async def register(update_request: UpdateRequest,
+                   login_service: LoginService = Depends(Provide[Container.login_service])):
+    try:
+        print(update_request)
+        token = login_service.update_user(update_request.username, update_request.name, update_request.old_username)
+        return LoginResponse(success=True, jwt_token = token)
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
     

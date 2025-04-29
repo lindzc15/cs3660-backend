@@ -66,3 +66,31 @@ class LoginService:
             return token
         except Exception as e:
             raise Exception(f"Login failed: {str(e)}")
+        
+    #update a user's info in the database, return new token
+    def update_user(self, username: str, name: str, old_username: str) -> str:
+        try:
+            user = self.user_repository.update_user(username, name, old_username)
+
+            if not user:
+                raise Exception("Error updating user")
+
+
+            user_payload = {
+                    "username": user.username,
+                    "name": user.name
+                }
+
+            # Generate JWT token
+            expiration_time = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=1)
+            token_payload = {
+                    "sub": user.username,  # Subject (user)
+                    "exp": expiration_time,  # Expiry time
+                    "user": user_payload  # Include role or other user attributes if needed
+                }
+            token = jwt.encode(token_payload, settings.secret_key, algorithm=settings.algorithm)
+
+            return token
+        except Exception as e:
+            raise Exception(f"Login failed: {str(e)}")
+

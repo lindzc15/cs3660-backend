@@ -30,7 +30,7 @@ if settings.app_env == "local":
     allow_headers=["*"],  # Allow all headers
     )
 
-app.add_middleware(ApiGatewayAuthMiddleware)
+# app.add_middleware(ApiGatewayAuthMiddleware)
 
 
 app.include_router(login_controller.router)

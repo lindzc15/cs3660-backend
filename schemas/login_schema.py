@@ -19,3 +19,8 @@ class RegisterRequest(BaseModel):
     username: str
     password: str
     name: str
+
+class UpdateRequest(BaseModel):
+    username: str
+    name: str
+    old_username: str

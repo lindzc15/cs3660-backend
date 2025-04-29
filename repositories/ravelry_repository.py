@@ -59,6 +59,29 @@ class RavelryRepository:
                     ] if "yarn_fibers" in yarn_data else None)
             return None
         
+    @staticmethod
+    async def get_pattern_details(id) -> PatternsResponse | None:
+        url = f"https://api.ravelry.com/patterns/{id}.json"
+        credentials = f"{RAVELRY_USERNAME}:{RAVELRY_PASSWORD}"
+        encoded_credentials = base64.b64encode(credentials.encode()).decode()
+        headers = {"Authorization": f"Basic {encoded_credentials}"}
+        async with httpx.AsyncClient(timeout=30) as client:
+            response = await client.get(url, headers=headers)
+            if response.status_code == 200:
+                pattern_details = response.json().get("pattern")
+                author = pattern_details.get("pattern_author", {})
+                photos = pattern_details.get("photos", {})
+                test = PatternBasics(                    
+                        id=str(pattern_details["id"]),
+                        free=pattern_details["free"],
+                        name=pattern_details["name"],
+                        designer=DesignerInfo(**author) if author else None,
+                        first_photo=PatternPhotoBasic(**photos[0]) if photos else None
+                    )
+                print(test)
+                return test
+            return None
+        
     
     @staticmethod
     async def get_all_patterns() -> PatternsResponse | None:

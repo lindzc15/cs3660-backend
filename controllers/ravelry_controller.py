@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from schemas.ravelry_schema import YarnResponse, YarnIDResponse, YarnID, PatternsResponse, Search
+from schemas.ravelry_schema import YarnResponse, YarnIDResponse, YarnID, PatternsResponse, Search, PatternIDResponse, PatternID, PatternBasics
 from services.ravelry_service import RavelryService
 router = APIRouter(prefix="/api/ravelry", tags=["ravelry", "yarns"])
 
@@ -15,6 +15,10 @@ async def yarn_details(id: YarnID):
 @router.get("/patterns", response_model=PatternsResponse)
 async def patterns():
     return await RavelryService.get_all_patterns()
+
+@router.post("/patterns/details", response_model=PatternBasics)
+async def patterns(id: PatternID):
+    return await RavelryService.get_pattern_details(id.id)
 
 @router.post("/patterns/search", response_model=PatternsResponse)
 async def patterns(query: Search):

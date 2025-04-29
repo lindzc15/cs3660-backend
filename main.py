@@ -5,7 +5,7 @@ from fastapi.openapi.utils import get_openapi
 from fastapi.middleware.cors import CORSMiddleware
 
 from containers import Container
-from controllers import login_controller, ravelry_controller, tutorials_controller
+from controllers import login_controller, ravelry_controller, tutorials_controller, favorites_controller
 from config import settings
 
 from middleware.api_gateway_middleware import ApiGatewayAuthMiddleware
@@ -36,6 +36,7 @@ if settings.app_env == "local":
 app.include_router(login_controller.router)
 app.include_router(ravelry_controller.router)
 app.include_router(tutorials_controller.router)
+app.include_router(favorites_controller.router)
 
 
 @app.get("/", response_model=MessageResponse)

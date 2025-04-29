@@ -12,8 +12,6 @@ class UserRepository:
 
     def get_user_by_username(self, username: str) -> User:
         try:
-            print(username)
-            print(self.db.query(User).filter(User.username == username).first())
             return self.db.query(User).filter(User.username == username).first()
         except Exception:
             self.db.rollback()

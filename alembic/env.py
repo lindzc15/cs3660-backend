@@ -24,6 +24,8 @@ from models.base_model import Base
 target_metadata = Base.metadata
 
 from models.user_model import User
+from models.favorite_pattern_model import FavoritePatterns
+from models.favorite_yarn_model import FavoriteYarns
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
